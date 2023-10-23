@@ -1,11 +1,9 @@
-from . import app
-from flask import render_template
+from flask import render_template, Blueprint
+from .models import Post
 
+bp = Blueprint('main', __name__)
 
-@app.route("/")
-def home():
-    return render_template('home.html')
-
-@app.route("/about")
-def about():
-    return render_template('about.html')
+@bp.route("/post/<int:post_id>")
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', post=post)
